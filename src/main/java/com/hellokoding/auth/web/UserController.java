@@ -60,4 +60,31 @@ public class UserController {
     public String welcome(Model model) {
         return "welcome";
     }
+    /*@RequestMapping(value = "/welcome", method = RequestMethod.POST)
+    public String welcome(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model)
+    {
+    	
+    }*/
+    @RequestMapping(value = "/addmoney", method = RequestMethod.GET)
+    public String addmoney(Model model) {
+        model.addAttribute("addForm", new User());
+
+        return "addmoney";
+    }
+
+    @RequestMapping(value = "/addmoney", method = RequestMethod.POST)
+    public String addmoney(@ModelAttribute("addForm") User addForm, BindingResult bindingResult, Model model) {
+        userValidator.validate(addForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "addmoney";
+        }
+
+        userService.save(addForm);
+
+        
+
+        return "redirect:/welcome";
+    }
+
 }

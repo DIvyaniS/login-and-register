@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -13,9 +14,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Create an account</title>
+    <title>Add money to account</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -23,58 +25,34 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+
 <body>
-<div class="container">
-
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id="logoutForm" method="POST" action="${contextPath}/logout">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
-
-        <h2>Welcome <a href>${pageContext.request.userPrincipal.name}</a> | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
-
-    </c:if>
-    <div>
-        <a href = "/addMoney">Add money to your wallet</a>
-    </div>
-</div>
-
-
-<!-- <div><form action="/action_page.php">
-Enter Amount <input type="text" name="addMoney"><br>
-
-<input type="submit" value="Add Money">
-</form></div>
-
 
 <div class="container">
-<div><form action="/action_page.php">
 
-Enter Card No. <input type="text" name="CardNo"><br>
+    <form:form method="POST" modelAttribute="addform" class="form-addmoney">
+        <h2 class="form-addmoney-heading">Add money to your account</h2>
+        <spring:bind path="amount">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="amount" class="form-control" placeholder="Amount"
+                            autofocus="true"></form:input>
+                <form:errors path="amount"></form:errors>
+            </div>
+        </spring:bind>
 
-<input type="submit" value="Add Card">
-</form></div>
-Send money</br>
-<button type="button" onclick="alert('Hello world!')">Check balance</button>
+        <spring:bind path="card">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="card" class="form-control" placeholder="Card"></form:input>
+                <form:errors path="card"></form:errors>
+            </div>
+        </spring:bind>
 
-View transaction history</br>
-<div>
-<button onclick="myFunction()">See Transaction History</button>
+        
 
-<p id="demo"></p>
-
-<script>
-function myFunction() {
-    document.getElementById("demo").innerHTML = "Hello World";
-}
-</script></div>
-
-
-
+        <button class="btn btn-lg btn-primary btn-block" type="submit">ADD</button>
+    </form:form>
 
 </div>
-
--->
 <!-- /container -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
